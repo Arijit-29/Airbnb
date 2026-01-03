@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Complete Payment</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+  <h2>Processing Payment...</h2>
+
+  <form id="payment-form" action="/bookings/verify" method="POST">
+    <input type="hidden" name="razorpay_order_id" />
+    <input type="hidden" name="razorpay_payment_id" />
+    <input type="hidden" name="razorpay_signature" />
+    <input type="hidden" name="homeId" value="<%= homeId %>" />
+  </form>
+
+  <script>
+    var options = {
+      key: "<%= key %>",
+      amount: "<%= amount %>",
+      currency: "INR",
+      order_id: "<%= orderId %>",
+      name: "Airbnb Booking",
+      description: "Home Booking Payment",
+      handler: function (response) {
+        document.querySelector('[name="razorpay_order_id"]').value =
+          response.razorpay_order_id;
+        document.querySelector('[name="razorpay_payment_id"]').value =
+          response.razorpay_payment_id;
+        document.querySelector('[name="razorpay_signature"]').value =
+          response.razorpay_signature;
+
+        document.getElementById("payment-form").submit();
+      }
+    };
+
+    var rzp = new Razorpay(options);
+    rzp.open();
+  </script>
+</body>
+</html>

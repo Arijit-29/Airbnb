@@ -1,0 +1,71 @@
+<header class="bg-red-500 text-white p-4 shadow-md">
+  <nav class="container mx-auto flex justify-between">
+    <ul
+      class="flex space-x-2 md:space-x-4 overflow-x-auto whitespace-nowrap scrollbar-hide pb-2"
+    >
+      <li>
+        <a href="/" class="hover:bg-red-400 py-2 px-3 md:px-4 rounded"
+          >Go to Home</a
+        >
+      </li>
+
+      <% if (isLoggedin) { %>
+        <% if (user && user.userType === "guest") { %>
+      <li>
+        <a href="/Bookings" class="hover:bg-red-400 py-2 px-3 md:px-4 rounded"
+          >Bookings</a
+        >
+      </li>
+      <li>
+        <a href="/Favourites" class="hover:bg-red-400 py-2 px-3 md:px-4 rounded"
+          >Favourites</a
+        >
+      </li>
+      <% } else { %>
+      <li>
+        <a
+          href="/host/add-home"
+          class="hover:bg-red-400 py-2 px-3 md:px-4 rounded"
+          >Add Home</a
+        >
+      </li>
+      <li>
+        <a
+          href="/host/host-homes"
+          class="hover:bg-red-400 py-2 px-3 md:px-4 rounded"
+          >Host Homes</a
+        >
+      </li>
+      <% } %>
+      <% } %>
+    </ul>
+    <ul class="flex space-x-3 list-none">
+    <% if (!isLoggedin) { %>
+      <li>
+    <a
+      href="/login"
+      class="hover:bg-white hover:text-red-500 bg-red-600 py-2 px-4 rounded transition duration-300 font-semibold border-4 border-white" 
+    >
+      Login
+    </a></li>
+     <li>
+    <a
+      href="/sign-up"
+      class="hover:bg-white hover:text-red-500 bg-red-600 py-2 px-4 rounded transition duration-300 font-semibold border-4 border-white" 
+    >
+      SignUp
+    </a></li>
+    <% } else { %>
+      <li>
+    <form action="/logout" method="POST">
+      <button
+        type="submit"
+        class="hover:bg-white hover:text-red-500 bg-red-600 py-2 px-4 rounded transition duration-300 font-semibold border-4 border-white"
+      >
+        Logout
+      </button>
+    </form></li>
+    <% } %>
+    </ul>
+  </nav>
+</header>

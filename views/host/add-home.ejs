@@ -1,0 +1,49 @@
+<%- include('../partials/head') %>
+  </head>
+  <body>
+     <%- include('../partials/nav') %>
+    <main class="container mx-auto mt-8 p-8 bg-white rounded-lg shadow-md">
+    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800"><%=editing?"Edit":"Register" %> your home here:</h1>
+    <form action="/host/<%=editing?'edit-home':'add-home' %>" method="POST"  enctype="multipart/form-data" class="max-w-md mx-auto">
+      <input type="hidden" name="id" value="<%=editing?home.id:'' %>"/>
+      <input
+        type="text"
+        placeholder="enter name of your house"
+        name="houseName"
+         class="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+         value="<%=editing?home.houseName:'' %>"
+      />
+        <input
+          type="text"
+          name="price"
+          placeholder="Price Per Night"
+          class="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+           value="<%=editing?home.price:'' %>"/>
+          
+        <input
+          type="text"
+          name="location"
+          placeholder="Location"
+          class="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+           value="<%=editing?home.location:'' %>"/>
+           <% if (editing) { %>
+  <input type="hidden" name="existingPhotoUrl" value="<%= home.photoUrl %>">
+<% } %>
+        <input
+          type="file"
+          name="photoUrl"
+          accept="image/*"
+          class="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500
+          "
+          />
+          <input
+          type="text"
+          name="description"
+          placeholder="Add a small desciption"
+          class="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+           value="<%=editing?home.description:'' %>"/>
+      <input type="submit" class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-300" value="<%=editing?'Update':'Submit' %>"/>
+    </form>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+const express=require('express')
+const hostRouter=express.Router()
+const homesController=require("../controllers/homes")
+const isAuth=require("../middleware/isAuth")
+const isHost=require("../middleware/isHost")
+hostRouter.get("/add-home",isAuth("/login"),isHost,homesController.getAddHome)
+hostRouter.post("/add-home",isAuth("/login"),isHost,homesController.postAddHome)
+hostRouter.get("/host-homes",isAuth("/login"),isHost,homesController.getHostHomes)
+hostRouter.get("/edit-home/:homeId",isAuth("/login"),isHost,homesController.geteditHome)
+hostRouter.post("/edit-home",isAuth("/login"),isHost,homesController.posteditHome)
+hostRouter.post("/delete-home/:homeId",isAuth("/login"),isHost,homesController.postdeleteHome)
+module.exports=hostRouter
