@@ -80,7 +80,7 @@ app.use(error);
   });*/
 async function startServer() {
   try {
-    await SQLdb.execute("SELECT 1");
+    await SQLdb.query("SELECT 1");
     await mongoose.connect(MONGO_URL);
     console.log("✅ Mongo + MySQL connected");
     app.listen(PORT, () => {

@@ -15,6 +15,7 @@ exports.getAddHome = (req, res, next) => {
 exports.postAddHome = (req, res, next) => {
   const photo = req.file ? "/uploads/" + req.file.filename : req.body.photoUrl;
   const rating = (Math.random() * (5 - 3) + 3).toFixed(1);
+  const ownerId = String(req.session.user._id);
   const home = new Home(
     null,
     req.body.houseName,
@@ -23,14 +24,13 @@ exports.postAddHome = (req, res, next) => {
     rating,
     photo,
     req.body.description,
-    req.session.user._id
+    ownerId
   );
   home
     .save()
     .then(() => {
       res.render("host/submit", {
         pageTitle: "submit",
-        //isLoggedin: req.isLoggedin,
         user: req.session.user,
       });
     })
@@ -43,12 +43,10 @@ exports.getHomes = (req, res, next) => {
     res.render("store/welcome", {
       registeredHomes: registeredHomes,
       pageTitle: "welcome",
-      //isLoggedin: req.isLoggedin,
       user: req.session.user,
     });
   });
 };
-
 exports.getFavourites = (req, res, next) => {
   Favourites.find({ userId: req.session.user._id }).then((favourites) => {
     const favIds = favourites.map((fav) => fav.id);
@@ -66,11 +64,12 @@ exports.getFavourites = (req, res, next) => {
   });
 };
 exports.getHostHomes = (req, res, next) => {
-  Home.fetchAllByOwner(req.session.user._id).then(([registeredHomes]) =>
+  const ownerId = req.session.user._id.toString();
+  console.log("Fetching homes for ownerId:", ownerId);
+  Home.fetchAllByOwner(ownerId).then(([registeredHomes]) =>
     res.render("host/host-homes", {
       registeredHomes: registeredHomes,
       pageTitle: "host-homes",
-      //isLoggedin: req.isLoggedin,
       user: req.session.user,
     })
   );

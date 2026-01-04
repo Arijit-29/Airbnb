@@ -1,6 +1,15 @@
 const SQLdb = require("../utils/SQLdatabaseUtil");
 module.exports = class Home {
-  constructor(id, houseName, price, location, rating, photoUrl, description, ownerId) {
+  constructor(
+    id,
+    houseName,
+    price,
+    location,
+    rating,
+    photoUrl,
+    description,
+    ownerId
+  ) {
     this.id = id;
     this.houseName = houseName;
     this.price = price;
@@ -8,12 +17,11 @@ module.exports = class Home {
     this.rating = rating;
     this.photoUrl = photoUrl;
     this.description = description;
-    this.ownerId=ownerId
+    this.ownerId = ownerId;
   }
   save() {
-    //const ownerID=String(this.ownerId).replace(/['"]/g,'');
     if (this.id) {
-      return SQLdb.execute(
+      return SQLdb.query(
         "UPDATE homes SET houseName = ?, price = ?, location = ?, rating = ?, photoUrl = ?, description = ? WHERE id = ? AND ownerId=?",
         [
           this.houseName,
@@ -23,11 +31,11 @@ module.exports = class Home {
           this.photoUrl,
           this.description,
           this.id,
-          this.ownerId
+          this.ownerId,
         ]
       );
     } else {
-      return SQLdb.execute(
+      return SQLdb.query(
         "INSERT INTO homes(houseName,price,location,rating,photoUrl,description,ownerId) VALUES (? , ? , ? , ? , ? ,? , ?)",
         [
           this.houseName,
@@ -36,21 +44,21 @@ module.exports = class Home {
           this.rating,
           this.photoUrl,
           this.description,
-          this.ownerId
+          String(this.ownerId),
         ]
       );
     }
   }
   static fetchAll() {
-    return SQLdb.execute("SELECT * FROM homes");
+    return SQLdb.query("SELECT * FROM homes");
   }
   static findById(homeId) {
-    return SQLdb.execute("SELECT * FROM homes WHERE id=?", [homeId]);
+    return SQLdb.query("SELECT * FROM homes WHERE id=?", [homeId]);
   }
   static deleteById(homeId, callback) {
-    return SQLdb.execute("DELETE FROM homes WHERE id=?", [homeId]);
+    return SQLdb.query("DELETE FROM homes WHERE id=?", [homeId]);
   }
   static fetchAllByOwner(ownerId) {
-  return SQLdb.execute("SELECT * FROM homes WHERE ownerId=?", [ownerId]);
-}
+    return SQLdb.query("SELECT * FROM homes WHERE ownerId=?", String([ownerId]));
+  }
 };
