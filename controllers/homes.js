@@ -259,7 +259,7 @@ exports.getBookings = (req, res, next) => {
       const BookingWithDetails = bookingIds
         .map((homeId) => registeredHomes.find((home) => home.id === homeId))
         .filter((home) => home !== undefined);
-      res.render("store/Bookings", {
+      res.render("store/bookings", {
         bookings: BookingWithDetails,
         pageTitle: "Bookings",
         user: req.session.user,
