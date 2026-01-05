@@ -57,7 +57,6 @@ exports.getFavourites = (req, res, next) => {
       res.render("store/favourites", {
         favourites: favouritesWithDetails,
         pageTitle: "favourites",
-        //isLoggedin: req.isLoggedin,
         user: req.session.user,
       });
     });
@@ -243,7 +242,7 @@ exports.postBookings = async (req, res, next) => {
       console.log("Already in bookings");
       return res.redirect("/Bookings");
     }
-    const booking = new Bookings({ id: homeId, userId: req.session.user._id });
+    const booking = new Bookings({ id: homeId, userId: req.session.user._id, });
     await booking.save();
 
     console.log("Added to Bookings:", homeId);
@@ -255,7 +254,7 @@ exports.postBookings = async (req, res, next) => {
 };
 exports.getBookings = (req, res, next) => {
   Bookings.find({ userId: req.session.user._id }).then((bookings) => {
-    const bookingIds = bookings.map((booking) => booking.id);
+    const bookingIds = bookings.map((booking) => Number(booking.id));
     Home.fetchAll().then(([registeredHomes]) => {
       const BookingWithDetails = bookingIds
         .map((homeId) => registeredHomes.find((home) => home.id === homeId))
