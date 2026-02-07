@@ -67,17 +67,6 @@ app.use("/host", hostRouter);
 app.use(error);
 
 // connecting to MongoDB and starting the server
-/*mongoose
-  .connect(MONGO_URL)
-  .then(() => {
-    console.log("Connected to Mongo");
-    app.listen(PORT, () => {
-      console.log(`server running on address  https://localhost:${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.log("Error while connecting to Mongo: ", err);
-  });*/
 async function startServer() {
   try {
     await SQLdb.query("SELECT 1");
